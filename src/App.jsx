@@ -19,7 +19,6 @@ import LoginForm from './components/auth/LoginForm';
 import RegisterForm from './components/auth/RegisterForm';
 import LoadingSpinner from './components/common/LoadingSpinner';
 
-/* screens */
 import Students   from './screens/Students/Index';
 import Teachers   from './screens/Teachers';
 import Subjects   from './screens/Subjects/Index';
@@ -31,7 +30,6 @@ import Admission  from './screens/Admission/Index';
 import Exam       from './screens/Exam/Index';
 import Dashboard from './screens/Dashboard/Dashboard';
 
-/* auth guard */
 function RequireAuth() {
   const user = useSelector((s) => s.auth.user);
   return user ? <Outlet /> : <Navigate to="/login" replace />;
@@ -42,7 +40,7 @@ const theme = createTheme({
 });
 
 function App() {
-  const dispatch = useDispatch();            // ← inside component
+  const dispatch = useDispatch();            
   const { user, isLoading } = useSelector((state) => state.auth);
 
   useEffect(() => {
@@ -62,16 +60,14 @@ function App() {
       <Toaster position="top-right" />
       <Router>
  <Routes>
-  {/* public */}
   <Route path="/login"    element={user ? <Navigate to="/dashboard" /> : <LoginForm />} />
   <Route path="/register" element={user ? <Navigate to="/dashboard" /> : <RegisterForm />} />
 
-  {/* protected */}
   <Route element={<RequireAuth />}>
     <Route element={<Layout />}>
       <Route index element={<Navigate to="/dashboard" replace />} />
 
-      {/* each module gets its own nested routes */}
+      
       <Route path="dashboard" element={<Dashboard />} />
       <Route path="students/*"  element={<Students />} />
       <Route path="teachers/*"  element={<Teachers />} />
